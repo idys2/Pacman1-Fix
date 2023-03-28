@@ -84,6 +84,17 @@ public class Map {
   }
 
   public JComponent eatCookie(String name) {
-    return null;
+    Location pacman = locations.get(name);
+    HashSet<Type> items = getLoc(pacman);
+    if(items.contains(Map.Type.COOKIE)){
+	String cookie = "tok_x"+pacman.x+"_y"+pacman.y;
+	items.remove(Map.Type.COOKIE);
+	cookies++;
+	field.put(pacman, items);
+	locations.remove(cookie);
+	return components.remove(cookie);
+    } else {
+	return null;
+    }
   }
 }
