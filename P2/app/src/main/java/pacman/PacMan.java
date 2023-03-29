@@ -23,7 +23,7 @@ public class PacMan {
         Location newLocation = myLoc.shift(dx, dy);
 
         HashSet<Map.Type> types = myMap.getLoc(newLocation);
-        if (types.contains(Map.Type.WALL) ||
+        if (types.contains(Map.Type.EMPTY) ||
             (types.size() == 1 && types.contains(Map.Type.COOKIE)))
           validMoves.add(newLocation);
       }
