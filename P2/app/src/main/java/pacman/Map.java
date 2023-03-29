@@ -61,11 +61,11 @@ public class Map {
     field.get(oldLocation).remove(type);
 
     locations.put(name, loc);
-    component.setLocation(loc.y, loc.x);
-    if (field.containsKey(loc))
+    component.setLocation(loc.x, loc.y);
+    if (!field.containsKey(loc))
       field.put(loc, new HashSet<Type>());
     field.get(loc).add(type);
-    return false;
+    return true;
   }
 
   public HashSet<Type> getLoc(Location loc) {
