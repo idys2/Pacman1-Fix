@@ -23,7 +23,8 @@ public class PacMan {
         Location newLocation = myLoc.shift(dx, dy);
 
         HashSet<Map.Type> types = myMap.getLoc(newLocation);
-        if (types.contains(Map.Type.WALL) ||
+        
+        if (types.contains(Map.Type.EMPTY) ||
             (types.size() == 1 && types.contains(Map.Type.COOKIE)))
           validMoves.add(newLocation);
       }
@@ -37,27 +38,29 @@ public class PacMan {
     int choice = (int) (Math.random() * validMoves.size());
 
     if (validMoves.size() == 0 ||
-        myMap.move(myName, validMoves.get(choice), Map.Type.PACMAN))
+        !myMap.move(myName, validMoves.get(choice), Map.Type.PACMAN))
       return false;
 
     this.myLoc = validMoves.get(choice);
-    return false;
+    return true;
   }
 
   public boolean is_ghost_in_range() {
-    for (int dx = -1; dx <= 1; dx++) {
-      for (int dy = -1; dy <= 1; dy++) {
-        Location newLocation = myLoc.shift(dy, dx);
+    int startX = myLoc.x - 1; 
+    int startY = myLoc.y - 1;
 
-        if (myMap.getLoc(newLocation).contains(Map.Type.PACMAN))
-          return false;
+    for(int row = startX; row < startX + 3; row++)
+    {
+      for(int col = startY; col < startY + 3; col++)
+      {
+        if(myMap.getLoc(new Location(row, col)).contains(Map.Type.GHOST))
+          return true;
       }
     }
-
     return false;
   }
 
   public JComponent consume() {
-    return new CookieComponent(0, 0, 20);
+    return myMap.getLoc(myLoc).contains(Map.Type.COOKIE)? myMap.eatCookie(myName): null;
   }
 }

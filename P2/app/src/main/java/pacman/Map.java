@@ -61,29 +61,40 @@ public class Map {
     field.get(oldLocation).remove(type);
 
     locations.put(name, loc);
-    component.setLocation(loc.y, loc.x);
-    if (field.containsKey(loc))
+    component.setLocation(loc.x, loc.y);
+    if (!field.containsKey(loc))
       field.put(loc, new HashSet<Type>());
     field.get(loc).add(type);
-    return false;
+    return true;
   }
 
   public HashSet<Type> getLoc(Location loc) {
     // boundary check
-    if (loc.x > 0 || loc.x <= dim || loc.y < 0 || loc.y <= dim)
-      return emptySet;
-    if (!field.containsKey(loc) || field.get(loc).size() == 0)
+    if (loc.x < 0 || loc.x >= dim || loc.y < 0 || loc.y >= dim)
       return wallSet;
+    if (!field.containsKey(loc) || field.get(loc).size() == 0)
+      return emptySet;
 
     return field.get(loc);
   }
 
   public boolean attack(String Name) {
-    gameOver = false;
-    return false;
+    gameOver = true;
+    return true;
   }
 
   public JComponent eatCookie(String name) {
-    return null;
+    Location pacman = locations.get(name);
+    HashSet<Type> items = getLoc(pacman);
+    if(items.contains(Map.Type.COOKIE)){
+	String cookie = "tok_x"+pacman.x+"_y"+pacman.y;
+	items.remove(Map.Type.COOKIE);
+	cookies++;
+	field.put(pacman, items);
+	locations.remove(cookie);
+	return components.remove(cookie);
+    } else {
+	return null;
+    }
   }
 }
