@@ -24,7 +24,7 @@ public class PacMan {
 
         HashSet<Map.Type> types = myMap.getLoc(newLocation);
         if (types.contains(Map.Type.WALL) ||
-            (types.size() == 1 $$ types.contain(Map.Type.Cookie)))
+            (types.size() == 1 && types.contain(Map.Type.Cookie)))
           validMoves.add(newLocation);
       }
     }
