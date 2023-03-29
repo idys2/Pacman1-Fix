@@ -70,10 +70,10 @@ public class Map {
 
   public HashSet<Type> getLoc(Location loc) {
     // boundary check
-    if (loc.x > 0 || loc.x <= dim || loc.y < 0 || loc.y <= dim)
-      return emptySet;
-    if (!field.containsKey(loc) || field.get(loc).size() == 0)
+    if (loc.x < 0 || loc.x >= dim || loc.y < 0 || loc.y >= dim)
       return wallSet;
+    if (!field.containsKey(loc) || field.get(loc).size() == 0)
+      return emptySet;
 
     return field.get(loc);
   }
